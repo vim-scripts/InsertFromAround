@@ -84,7 +84,23 @@ CTRL-G CTRL-D		Remove whitespace before the cursor so that the
 							     *i_CTRL-G_CTRL-T*
 CTRL-G CTRL-T		Insert whitespace so that the text after the cursor
 			aligns with the start of following non-whitespace text
-			in the previous unfolded line.
+			(and the end of the text) in the previous unfolded
+			line.
+
+							     *i_CTRL-G_CTRL-V*
+CTRL-G CTRL-V		Insert whitespace so that the text after the cursor
+			aligns with the closest match of the (non-whitespace)
+			character after the cursor found after the cursor
+			column in adjacent unfolded lines.
+
+								  *i_CTRL-G_V*
+CTRL-G V{char}		Insert whitespace so that the text after the cursor
+			aligns the next match of {char} in the current line
+			with the closest match of {char} found after that
+			column in adjacent unfolded lines.
+			Note: This won't work correctly when there are <Tab>
+			characters between the cursor and the next match of
+			{char}.
 
 EXAMPLE						    *InsertFromAround-example*
 
@@ -131,6 +147,25 @@ v CTRL-G CTRL-T
                               v CTRL-G CTRL-D
                    |ere ~
 
+Align "Nothing" with the closest match of the character "N" found nearby.
+    NOO            BAR        NAZ~
+           NI ~
+|othing ~
+v CTRL-G CTRL-U
+    |othing ~
+    v CTRL-G CTRL-U
+           |othing ~
+           v CTRL-G CTRL-U
+                              |othing ~
+
+Align on = with the closest match found nearby.
+    class="bar" alt="ni" ~
+|ummary="foo" ~
+v CTRL-G V =
+  |ummary="foo" ~
+    v CTRL-G CTRL-U
+            |ummary="foo" ~
+
 ==============================================================================
 INSTALLATION				       *InsertFromAround-installation*
 
@@ -176,6 +211,14 @@ IDEAS						      *InsertFromAround-ideas*
 
 ==============================================================================
 HISTORY						    *InsertFromAround-history*
+
+1.10	03-Apr-2014
+- ENH: The i_CTRL-G_CTRL-D / i_CTRL-G_CTRL-T mappings also align to
+  non-whitespace text in preceding lines when the line immediately above is
+  shorter than the cursor column.
+- Add CTRL-G CTRL-V mapping that aligns to the current character found in
+  adjacent lines.
+- Add CTRL-G V{char} mapping that aligns to the queried character.
 
 1.00	23-Jan-2014
 First published version.
